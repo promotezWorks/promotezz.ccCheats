@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRM CHEATS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="wrap top-nav">
+    <div class="brand-tag">PRM CHEATS</div>
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      <span>OPERATIONAL</span>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="hero wrap">
+    <h1>Win</h1>
+    <p class="hero-sub">Kernel-level undetected software tools. Instant delivery.</p>
+    <div class="hero-btns">
+      <button id="browseBtn" class="btn btn-primary" aria-expanded="false">Browse</button>
+      <a href="https://discord.gg/REPLACE_ME" id="discordBtn" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Discord</a>
+    </div>
+  </main>
+
+  <!-- Products Section -->
+  <section id="games" class="games-section" hidden>
+    <div class="wrap">
+      <div class="section-label">
+        <span>Click game image to preview</span>
+        <span id="itemCount">3 Titles</span>
+      </div>
+
+      <ul id="gameGrid" class="games-grid">
+        <!-- Rendered via JS -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- Minimal Preview & Checkout Modal -->
+  <div id="buyModal" class="modal-overlay" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-img-banner">
+        <img id="modalBannerImg" src="" alt="Game Preview">
+        <div class="modal-img-overlay">
+          <span class="status-badge" style="color:#fff;background:rgba(0,0,0,0.6);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);">
+            <span class="status-dot"></span>
+            <span id="modalStatus">Undetected</span>
+          </span>
+          <button id="closeModalBtn" class="modal-close" aria-label="Close modal">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-header-info">
+          <h3 id="modalTitle">Game Title</h3>
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">Kernel Streamproof</span>
+        </div>
+
+        <ul class="features-preview" id="modalFeatures">
+          <!-- Populated via JS -->
+        </ul>
+
+        <div class="plan-tabs" id="modalPlanTabs">
+          <!-- Dynamically populated based on product plans -->
+        </div>
+
+        <div class="modal-summary">
+          <span id="modalPlanLabel">30 Days License</span>
+          <strong id="modalPlanPrice">$30.00</strong>
+        </div>
+
+        <button id="continueBuyBtn" class="btn btn-primary" style="width:100%;">Purchase License</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal Footer -->
+  <footer class="site-footer">
+    <div class="wrap footer-content">
+      <p>Not affiliated with any game developer or publisher. Use at your own risk. <a href="terms.html">Terms</a> &bull; <a href="privacy.html">Privacy</a></p>
+      <p>&copy; <span id="year"></span> PRM CHEATS</p>
+    </div>
+  </footer>
+
+  <script>
+    // --- Store Config ---
+    const DISCORD_LINK = "https://discord.gg/REPLACE_ME";
+
+    // Products list with image paths, features, and plans
+    const PRODUCTS = [
+      {
+        id: "cs2",
+        name: "Counter Strike 2",
+        image: "images/cs2.png",
+        status: "Undetected",
+        prices: { day: "$5.00", month: "$15.00", lifetime: "$30.00" },
+        cardPrice: "$5.00",
+        cardPeriod: "/ 1d",
+        features: [
+          "Glow ESP & Bone Skeleton Visuals",
+          "Smooth Aim Assist & Recoil Compensation",
+          "Bomb Timer & Streamproof OBS Bypass"
+        ]
+      },
+      {
+        id: "roblox",
+        name: "Roblox External",
+        image: "images/roblox.png",
+        status: "Undetected",
+        prices: { day: "$3.00", month: "$7.00", lifetime: "$15.00" },
+        cardPrice: "$3.00",
+        cardPeriod: "/ 1d",
+        features: [
+          "Universal Player Box & Tracer ESP",
+          "Silent Aim & Smooth Lock",
+          "Walkspeed & JumpPower Modifiers"
+        ]
+      },
+      {
+        id: "fish",
+        name: "How To Fish",
+        image: "images/fish.png",
+        status: "Undetected",
+        prices: { day: "$2.00", lifetime: "$5.00" },
+        cardPrice: "$2.00",
+        cardPeriod: "/ 1d",
+        features: [
+          "Autonomous Memory Fishing Bot",
+          "Auto-Cast & Instant Bite Strike",
+          "Humanized Keystroke Timing Variance"
+        ]
+      }
+    ];
+
+    // Render Games Grid with Image Preview Buttons
+    const grid = document.getElementById("gameGrid");
+    grid.innerHTML = PRODUCTS.map(p => `
+      <li class="game-card">
+        <!-- Image Preview Button -->
+        <button type="button" class="game-img-btn" data-preview-id="${p.id}" aria-label="Preview ${p.name}">
+          <img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="img-fallback">${p.name}</div>
+          <div class="game-img-overlay">
+            <span class="preview-badge">Preview</span>
+          </div>
+        </button>
+
+        <div class="game-body">
+          <div class="game-title-row">
+            <span class="game-title">${p.name}</span>
+            <span class="game-tag"><span class="status-dot"></span>${p.status}</span>
+          </div>
+          <div class="game-footer">
+            <div class="game-price">${p.cardPrice} <span>${p.cardPeriod}</span></div>
+            <button type="button" class="btn btn-primary btn-xs" data-buy-id="${p.id}">Get</button>
+          </div>
+        </div>
+      </li>
+    `).join("");
+
+    document.getElementById("itemCount").textContent = `${PRODUCTS.length} Titles`;
+
+    // Browse Button toggle with smooth animation
+    const browseBtn = document.getElementById("browseBtn");
+    const gamesSection = document.getElementById("games");
+
+    browseBtn.addEventListener("click", () => {
+      const isHidden = gamesSection.hidden;
+      gamesSection.hidden = !isHidden;
+      browseBtn.textContent = isHidden ? "Close" : "Browse";
+      browseBtn.setAttribute("aria-expanded", String(isHidden));
+      if (isHidden) {
+        gamesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    // Discord button
+    document.getElementById("discordBtn").href = DISCORD_LINK;
+
+    // Modal state & logic
+    let activeProduct = PRODUCTS[0];
+    let selectedPlan = "month";
+
+    const modal = document.getElementById("buyModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBannerImg = document.getElementById("modalBannerImg");
+    const modalStatus = document.getElementById("modalStatus");
+    const modalFeatures = document.getElementById("modalFeatures");
+    const modalPlanTabs = document.getElementById("modalPlanTabs");
+    const modalPlanLabel = document.getElementById("modalPlanLabel");
+    const modalPlanPrice = document.getElementById("modalPlanPrice");
+
+    const PLAN_NAMES = {
+      day: "1 Day",
+      week: "7 Days",
+      month: "30 Days",
+      lifetime: "Lifetime"
+    };
+
+    const PLAN_LABELS = {
+      day: "1 Day Access",
+      week: "7 Days Access",
+      month: "30 Days Access",
+      lifetime: "Lifetime Access"
+    };
+
+    function updateModalPricing() {
+      modalPlanLabel.textContent = PLAN_LABELS[selectedPlan] || `${selectedPlan} Access`;
+      modalPlanPrice.textContent = activeProduct.prices[selectedPlan] || "";
+    }
+
+    function renderModalTabs() {
+      const planKeys = Object.keys(activeProduct.prices);
+      modalPlanTabs.innerHTML = planKeys.map(planKey => `
+        <button type="button" class="plan-tab ${planKey === selectedPlan ? 'active' : ''}" data-plan="${planKey}">
+          ${PLAN_NAMES[planKey] || planKey}
+        </button>
+      `).join("");
+
+      modalPlanTabs.querySelectorAll(".plan-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          modalPlanTabs.querySelectorAll(".plan-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          selectedPlan = tab.getAttribute("data-plan");
+          updateModalPricing();
+        });
+      });
+    }
+
+    function openModalForProduct(prod) {
+      activeProduct = prod;
+      modalTitle.textContent = activeProduct.name;
+      modalBannerImg.src = activeProduct.image;
+      modalBannerImg.alt = activeProduct.name;
+      modalStatus.textContent = activeProduct.status;
+      
+      modalFeatures.innerHTML = activeProduct.features.map(f => `<li>${f}</li>`).join("");
+
+      selectedPlan = activeProduct.prices.day ? "day" : Object.keys(activeProduct.prices)[0];
+      renderModalTabs();
+      updateModalPricing();
+      modal.hidden = false;
+    }
+
+    // Clicking Image Preview Button
+    document.querySelectorAll("[data-preview-id]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-preview-id");
+        const prod = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+        openModalForProduct(prod);
+      });
+    });
+
+    // Clicking "Get" button
+    document.querySelectorAll("[data-buy-id]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-buy-id");
+        const prod = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+        openModalForProduct(prod);
+      });
+    });
+
+
+    // Close Modal
+    function closeModal() {
+      modal.hidden = true;
+    }
+
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    // Purchase via MoneyMotion checkout
+    const continueBuyBtn = document.getElementById("continueBuyBtn");
+    continueBuyBtn.addEventListener("click", async () => {
+      const originalText = continueBuyBtn.textContent;
+      continueBuyBtn.disabled = true;
+      continueBuyBtn.textContent = "Connecting MoneyMotion...";
+
+      try {
+        const res = await fetch("/api/create-checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            productId: activeProduct.id,
+            plan: selectedPlan
+          })
+        });
+
+        const data = await res.json();
+        if (data.success && data.checkoutUrl) {
+          window.location.href = data.checkoutUrl;
+          return;
+        }
+
+        if (data.error) {
+          alert(`MoneyMotion Notice:\n\n${data.error}\n\n(To accept live payments, complete verification in your MoneyMotion dashboard so the store becomes Active.)`);
+        } else {
+          alert("Unable to initiate MoneyMotion checkout session. Please check store status.");
+        }
+      } catch (err) {
+        alert("Network error connecting to payment gateway: " + err.message);
+      } finally {
+        continueBuyBtn.disabled = false;
+        continueBuyBtn.textContent = originalText;
+      }
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
